@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>reveal.js – The HTML Presentation Framework</title>
+
+		<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+		<meta name="author" content="Hakim El Hattab">
+
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<link rel="stylesheet" href="css/reset.css">
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/white.css" id="theme">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/monokai.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				<section data-background="PANTILLA_FINANZAS.png">
+					<h1>LDA</h1>
+					<h3>Introducción intuitiva</h3>
+					<p>
+						<small>Created by Diego Manzur</small>
+					</p>
+				</section>
+				<section>
+					<section data-background="PANTILLA_FINANZAS1.png"> 
+						<h2>Introducción</h2>
+						<br>
+						<p  align="justify"  style="font-size:70%;">El Análisis Discriminante Lineal o <em>Linear Discrimiant Analysis (LDA)</em> es un método de clasificación supervisado de variables cualitativas en el que dos o más grupos son conocidos <em>a priori</em> y nuevas observaciones se clasifican en uno de ellos en función de sus características. Haciendo uso del teorema de Bayes, <em>LDA</em> estima la probabilidad de que una observación, dado un determinado valor de los predictores, pertenezca a cada una de las clases de la variable cualitativa, . Finalmente se asigna la observación a la clase <em>k</em> para la que la probabilidad predicha es mayor.</p>
+					</section>
+
+					<section data-background="PANTILLA_FINANZAS1.png">
+						<h2>Step by Step</h2>
+						<br>
+						<p align="justify"  style="font-size:70%;">Cuando se trata de un problema de clasificación con solo dos niveles, ambos métodos suelen llegar a resultados similares.</p>
+						<ul align="justify"  style="font-size:50%;">
+							<li>Disponer de un conjunto de datos de entrenamiento (<em>training data</em>) en el que se conoce a que grupo pertenece cada observación.</li>
+							<li>Calcular las probabilidades previas (<em>prior probabilities</em>): la proporción esperada de observaciones que pertenecen a cada grupo.</li>
+							<li>Determinar si la varianza o matriz de covarianzas es homogénea en todos los grupos. De esto dependerá que se emplee <em>LDA</em> o <em>QDA</em>.</li>
+							<li>Estimar los parámetros necesarios para las funciones de probabilidad condicional, verificando que se cumplen las condiciones para hacerlo.</li>
+							<li>Calcular el resultado de la función discriminante. El resultado de esta determina a qué grupo se asigna cada observación.</li>
+							<li>Utilizar validación cruzada (<em>cross-validation</em>) para estimar las probabilidades de clasificaciones erróneas. <br><br></li>
+						</ul>
+
+					</section>
+
+				</section>
+
+				<section>
+					<section data-background="PANTILLA_FINANZAS1.png">
+						<h2> Teorema de Bayes para clasificación </h2>
+						<br>
+						<p align="justify"  style="font-size:70%;">Considérense dos eventos A y B, el teorema de Bayes establece que la probabilidad de que B ocurra habiendo ocurrido A (B|A) es igual a la probabilidad de que A y B ocurran al mismo tiempo (AB) dividida entre la probabilidad de que ocurra A.</p>
+						<p>$$P(B | A) = \frac{P(AB)}{P(A)}$$</p>
+					</section>
+
+					<section data-background="PANTILLA_FINANZAS1.png">
+						<p align="justify"  style="font-size:70%;">Supóngase que se desea clasificar una nueva observación en una de las K clases de una variable cualitativa Y, siendo K≥2, a partir de un solo predictor X. Se dispone de las siguientes definiciones:</p>
+						<ul align="justify"  style="font-size:60%;">
+								<li>Se define como overall, prior probability o probabilidad previa (πk) la probabilidad de que una observación aleatoria pertenezca a la clase k.</li>
+								<li>Se define fk(X)≡P(X=x|Y=k) como la función de densidad de probabilidad condicional de X para una observación que pertenece a la clase k. Cuanto mayor sea fk(X) mayor la probabilidad de que una observación de la clase k adquiera una valor de X≈x.</li>
+								<li>Se define como posterior probability o probabilidad posterior P(Y=k|X=x) la probabilidad de que una observación pertenezca a la clase k siendo x el valor del predictor.</li>
+						</ul>
+					</section>
+
+					<section data-background="PANTILLA_FINANZAS1.png">
+						<p align="justify"  style="font-size:70%;">Aplicando del teorema de Bayes se pueden conocer la posterior probability para cada clase:</p>
+						
+						<p align="justify"  style="font-size:70%;">$$\text{P(pertenecer a la clase k | valor  x  observado)} =$$</p>
+						<p align="justify"  style="font-size:70%;">$$\frac{\text{P(pertenecer a la clase k y observar x )}}{\text{P(observar x )}}$$</p>
+						<p align="justify"  style="font-size:70%;">Si se introducen los términos, definidos anteriormente, dentro la ecuación se obtiene:</p>
+						<p align="justify"  style="font-size:70%;">$$ P(Y = k | X = x) = \frac{\pi_kP(X = x | Y = k)}{\sum_{j=1}^K\pi_jP(X = x | Y = j)} = \frac{\pi_kf_k(x)}{\sum_{j=1}^K\pi_jf_j(x)} $$</p>
+					</section>
+
+				</section>
+
+				
+
+
+				
+
+			</div>
+
+		</div>
+
+		<script src="js/reveal.js"></script>
+
+		<script>
+
+			// More info https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				history: true,
+				transition: 'linear',
+				controls: true,
+				progress: true,
+				center: true,
+				hash: true,
+
+				transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+
+				// More info https://github.com/hakimel/reveal.js#dependencies
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true },
+					{ src: 'plugin/search/search.js', async: true },
+					{ src: 'plugin/zoom-js/zoom.js', async: true },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/math/math.js', async: true }
+				    //{ src: 'plugin/math-katex/math-katex.js', async: true }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
